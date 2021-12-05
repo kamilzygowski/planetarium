@@ -1,110 +1,114 @@
-import './style/main.css'
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-/**
- * GUI Controls
- */
-import * as dat from 'dat.gui'
-const gui = new dat.GUI()
+import './style/style.css'
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-/**
- * Base
- */
-// Canvas
-const canvas = document.querySelector('canvas.webgl')
-
-// Scene
-const scene = new THREE.Scene()
-
-/**
- * Object
- */
-const geometry = new THREE.IcosahedronGeometry(20, 1)
-const material = new THREE.MeshNormalMaterial()
-// Material Props.
-material.wireframe = true
-// Create Mesh & Add To Scene
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
-
-/**
- * Sizes
- */
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-}
-
-window.addEventListener('resize', () => {
-  // Update sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
-
-  // Update camera
-  camera.aspect = sizes.width / sizes.height
-  camera.updateProjectionMatrix()
-
-  // Update renderer
-  renderer.setSize(sizes.width, sizes.height)
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
-
-/**
- * Camera
- */
-// Base camera
-const camera = new THREE.PerspectiveCamera(
-  75,
-  sizes.width / sizes.height,
-  0.001,
-  5000
-)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 50
-scene.add(camera)
-
-// Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
-controls.autoRotate = true
-// controls.enableZoom = false
-controls.enablePan = false
-controls.dampingFactor = 0.05
-controls.maxDistance = 1000
-controls.minDistance = 30
-controls.touches = {
-  ONE: THREE.TOUCH.ROTATE,
-  TWO: THREE.TOUCH.DOLLY_PAN,
-}
-/**
- * Renderer
- */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(85, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  antialias: true,
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  canvas: document.querySelector('#background'),
+});
 
-/**
- * Animate
- */
-const clock = new THREE.Clock()
-const tick = () => {
-  const elapsedTime = clock.getElapsedTime()
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-  //mesh.rotation.y += 0.01 * Math.sin(1)
-  //mesh.rotation.y += 0.01 * Math.sin(1)
-  mesh.rotation.z += 0.01 * Math.sin(1)
+camera.position.x = 1;
+camera.position.y = 50;
+camera.position.z = 1;
 
-  // Update controls
-  controls.update()
-  // Render
-  renderer.render(scene, camera)
+camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-  // Call tick again on the next frame
-  window.requestAnimationFrame(tick)
+
+renderer.render(scene, camera);
+
+/*const geometry = new THREE.TorusGeometry(10, 3 ,16 ,100);
+const material = new THREE.MeshStandardMaterial({color:'#fff', wireframe:true});
+const torus = new THREE.Mesh(geometry, material);
+
+scene.add(torus);*/
+
+// LIGHTS
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(35,35,35);
+
+const ambientLight = new THREE.AmbientLight('#fff');
+ambientLight.position.set(12,12,12);
+scene.add(ambientLight);
+
+const lightHelper = new THREE.PointLightHelper(pointLight);
+scene.add(lightHelper);
+// GRID
+const gridHelper = new THREE.GridHelper(200,50);
+scene.add(gridHelper);
+
+// Controls for debug
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// Creating planets
+const planetGeo = new THREE.SphereGeometry(15,52,32);
+const planetMap = new THREE.TextureLoader().load('https://i.postimg.cc/4yB16SPv/planet-Texture.jpg');
+const planetNormalMap = new THREE.TextureLoader().load('https://i.postimg.cc/fR3vd59X/planet-Terrain.webp');
+const planetMaterial = new THREE.MeshStandardMaterial({map:planetMap,normalMap:planetNormalMap, color:'#fff'});
+const planet = new THREE.Mesh(planetGeo,planetMaterial);
+scene.add(planet);
+
+var t =0;
+
+
+
+function animate(){
+  requestAnimationFrame(animate);
+
+  /*torus.rotation.x += 0.01;
+  torus.rotation.y += 0.005;*/
+
+  controls.update();
+  renderer.render(scene,camera);
+  planet.rotation.x +=0.02;
+  planet.rotation.y +=0.005;
+  t += 0.01;
+  planet.position.x = 20*Math.cos(t) + 0;
+    planet.position.z = 20*Math.sin(t) + 0;
+    console.log(camera.position.x, camera.position.y, camera.position.z);
+    
 }
 
-tick()
+document.addEventListener('keydown', function(e){
+  switch ( e.code ){
+    case 'KeyW':
+      camera.position.x -= 5;
+    break;
+    case 'KeyA':
+      camera.position.y +=5;
+      break;
+      case 'KeyD':
+        camera.position.y -=5;
+    break;
+    case 'KeyS':
+    camera.position.x += 1;
+    break;
+  }
+
+
+})
+
+function addStar(){
+  const geometry = new THREE.IcosahedronGeometry(0.38, 0);
+  const starNormal = new THREE.TextureLoader().load('https://i.postimg.cc/RFm1jBbQ/star-Normal.jpg');
+  const material = new THREE.MeshStandardMaterial({color:'#fffa65'});
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x,y,z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x,y,z);
+  
+  scene.add(star);
+  
+}
+
+Array(40).fill().forEach(addStar);
+
+// Turning texture into app background
+const spaceTexture = new THREE.TextureLoader().load('https://i.postimg.cc/9fZt8M1Q/background.jpg');
+scene.background = spaceTexture;
+
+animate();

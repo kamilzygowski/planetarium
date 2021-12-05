@@ -5,15 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js"
+    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js",
+    "deploy": "gh-pages -d bundler"
   },
   "keywords": [],
-  "author": "Mohnish Landge",
+  "author": "Sweedy",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mohnishlandge/threejs-template/issues"
-  },
-  "homepage": "https://github.com/mohnishlandge/threejs-template#readme",
+  "homepage": "https://swedishsailor.github.io/planetarium",
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
@@ -34,6 +32,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "dat.gui": "^0.7.7"
+    "dat.gui": "^0.7.7",
+    "gh-pages": "^3.2.3"
   }
 }
