@@ -35,7 +35,7 @@ ambientLight.position.set(12, 12, 12);
 scene.add(ambientLight);
 
 const lightHelper = new THREE.PointLightHelper(pointLight);
-scene.add(lightHelper);
+//scene.add(lightHelper);
 // GRID
 //const gridHelper = new THREE.GridHelper(200,50);
 //scene.add(gridHelper);
