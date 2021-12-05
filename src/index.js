@@ -37,8 +37,8 @@ scene.add(ambientLight);
 const lightHelper = new THREE.PointLightHelper(pointLight);
 scene.add(lightHelper);
 // GRID
-const gridHelper = new THREE.GridHelper(200,50);
-scene.add(gridHelper);
+//const gridHelper = new THREE.GridHelper(200,50);
+//scene.add(gridHelper);
 
 // Controls for debug
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -68,7 +68,7 @@ function animate(){
   t += 0.01;
   planet.position.x = 20*Math.cos(t) + 0;
     planet.position.z = 20*Math.sin(t) + 0;
-    console.log(camera.position.x, camera.position.y, camera.position.z);
+    //console.log(camera.position.x, camera.position.y, camera.position.z);
     
 }
 
@@ -105,7 +105,7 @@ function addStar(){
   
 }
 
-Array(40).fill().forEach(addStar);
+Array(140).fill().forEach(addStar);
 
 // Turning texture into app background
 const spaceTexture = new THREE.TextureLoader().load('https://i.postimg.cc/9fZt8M1Q/background.jpg');
