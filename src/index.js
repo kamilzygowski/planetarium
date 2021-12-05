@@ -92,12 +92,12 @@ document.addEventListener('keydown', function(e){
 })
 
 function addStar(){
-  const geometry = new THREE.IcosahedronGeometry(0.38, 0);
+  const geometry = new THREE.IcosahedronGeometry(0.68, 0);
   const starNormal = new THREE.TextureLoader().load('https://i.postimg.cc/RFm1jBbQ/star-Normal.jpg');
   const material = new THREE.MeshStandardMaterial({color:'#fffa65'});
   const star = new THREE.Mesh(geometry, material);
 
-  const [x,y,z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(100));
+  const [x,y,z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(1000));
 
   star.position.set(x,y,z);
   
@@ -105,7 +105,7 @@ function addStar(){
   
 }
 
-Array(140).fill().forEach(addStar);
+Array(1140).fill().forEach(addStar);
 
 // Turning texture into app background
 const spaceTexture = new THREE.TextureLoader().load('https://i.postimg.cc/9fZt8M1Q/background.jpg');
