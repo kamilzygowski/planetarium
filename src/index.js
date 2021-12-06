@@ -11,9 +11,16 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-camera.position.x = 55;
+/*camera.position.x = 55;
 camera.position.y = 51;
 camera.position.z = 7;
+*/
+// static view of camera
+
+camera.position.x = -179;
+camera.position.y = 8.5;
+camera.position.z = 241.7;
+
 
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 
