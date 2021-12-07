@@ -53,7 +53,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // Creating planets
 const planetGeo = new THREE.SphereGeometry(15, 52, 32);
 const planetMap = new THREE.TextureLoader().load('https://i.postimg.cc/d13Rp4dv/dcklc0u-feeae0dc-f164-436a-8e75-5c9a7f3e3c71.png');
-const planetNormalMap = new THREE.TextureLoader().load('https://i.postimg.cc/fR3vd59X/planet-Terrain.webp');
+const planetNormalMap = new THREE.TextureLoader().load('https://i.postimg.cc/V5Pw613R/22f45db7a4965c2c9d6104aeb65a3db8.jpg');
 const planetMaterial = new THREE.MeshStandardMaterial({ map: planetMap, normalMap: planetNormalMap, color: '#fff' });
 const planet = new THREE.Mesh(planetGeo, planetMaterial);
 scene.add(planet);
